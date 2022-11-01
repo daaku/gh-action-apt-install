@@ -25,6 +25,8 @@ do_post() {
     local installed=$(cat $CACHE_LOG | grep Unpacking | awk '{print $2}')
     if [[ -z $installed ]]; then
       echo WARNING: no packages installed.
+      # create empty tar file to ensure cache hit flow
+      tar cf $CACHE_TAR --zstd -T /dev/null
     else
       # collect list of regular files installed by packages, trim leading /
       echo "$installed" | xargs dpkg -L |
