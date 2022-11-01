@@ -3,7 +3,6 @@
 set -euo pipefail
 shopt -s dotglob nullglob
 trap 'echo "${0} line ${LINENO} Status: ${?}"' ERR
-set -x
 
 INPUT_VERSION="$2"
 INPUT_PACKAGES="$3"
@@ -30,7 +29,7 @@ do_post() {
       echo WARNING: no packages installed.
     else
       # collect list of regular files installed by packages, trim leading /
-      cat $CACHE_LOG | grep Unpacking | awk '{print $2}' | xargs dpkg -L |
+      echo "$installed" | xargs dpkg -L |
         while IFS='\n' read -r f; do [[ -f "$f" ]] && echo "${f:1}"; done >$CACHE_FILES
       tar cf $CACHE_TAR --zstd -C / -T $CACHE_FILES
     fi
