@@ -8,7 +8,7 @@ CACHE_DIR=$HOME/.apt-cache
 CACHE_TAR=$CACHE_DIR/root.tar.zstd
 CACHE_LOG=$CACHE_DIR/log
 CACHE_FILES=$CACHE_DIR/files
-APT_CACHE_KEY=$(echo "$INPUT_PACKAGES|$INPUT_VERSION" | md5sum | awk '{print $1}')
+APT_CACHE_KEY=$(echo "$INPUTS_PACKAGES|$INPUTS_VERSION" | md5sum | awk '{print $1}')
 
 do_pre() {
   echo "APT_CACHE_KEY=$APT_CACHE_KEY" >>$GITHUB_ENV
@@ -21,7 +21,7 @@ do_post() {
   else
     echo Cache miss, installing and caching packages.
     mkdir -p $CACHE_DIR
-    sudo DEBIAN_FRONTEND=noninteractive apt --yes install $INPUT_PACKAGES | tee $CACHE_LOG
+    sudo DEBIAN_FRONTEND=noninteractive apt --yes install $INPUTS_PACKAGES | tee $CACHE_LOG
     local installed=$(cat $CACHE_LOG | grep Unpacking | awk '{print $2}')
     if [[ -z $installed ]]; then
       echo WARNING: no packages installed.
