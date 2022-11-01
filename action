@@ -25,7 +25,7 @@ do_post() {
     mkdir -p $CACHE_DIR
     sudo DEBIAN_FRONTEND=noninteractive apt --yes install $INPUT_PACKAGES | tee $CACHE_LOG
     # collect list of regular files installed by packages, trim leading /
-    cat out | grep Unpacking | awk '{print $2}' | xargs dpkg -L |
+    cat $CACHE_LOG | grep Unpacking | awk '{print $2}' | xargs dpkg -L |
       while IFS='\n' read -r f; do [[ -f "$f" ]] && echo "${f:1}"; done >$CACHE_FILES
     tar cf $CACHE_TAR --zstd -C / -T $CACHE_FILES
   fi
