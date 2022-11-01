@@ -22,20 +22,16 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Configure Inputs
-      run: |
+    - run: |
         echo "INPUTS_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
         echo "INPUTS_PACKAGES=${{ inputs.packages }}" >> $GITHUB_ENV
       shell: bash
-    - name: Prep Cache Key
-      run: ${{ github.action_path }}/action pre
+    - run: ${{ github.action_path }}/action pre
       shell: bash
-    - name: Cache
-      id: cache
+    - id: cache
       uses: actions/cache@v3
       with:
         path: ~/.apt-cache
         key: apt-cache-${{ env.APT_CACHE_KEY }}
-    - name: Install Packages
-      run: ${{ github.action_path }}/action post
+    - run: ${{ github.action_path }}/action post
       shell: bash
