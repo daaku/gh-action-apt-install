@@ -19,15 +19,19 @@ outputs:
     description: A boolean value to indicate a cache was found for the packages requested.
     value: ${{ steps.cache.outputs.cache-hit || false }}
 
+env:
+  INPUTS_VERSION: ${{ inputs.version }}
+  INPUTS_PACKAGES: ${{ inputs.packages }}
+
 runs:
   using: composite
   steps:
-    - run: ${{ github.action_path }}/action pre "${{ inputs.version }}" "${{ inputs.packages }}"
+    - run: ${{ github.action_path }}/action pre
       shell: bash
     - id: cache
       uses: actions/cache@v3
       with:
         path: ~/.apt-cache
         key: apt-cache-${{ env.APT_CACHE_KEY }}
-    - run: ${{ github.action_path }}/action post "${{ inputs.version }}" "${{ inputs.packages }}"
+    - run: ${{ github.action_path }}/action post
       shell: bash
