@@ -3,7 +3,7 @@
 set -euo pipefail
 shopt -s dotglob nullglob
 trap 'echo "${0} line ${LINENO} Status: ${?}"' ERR
-set +x
+set -x
 
 INPUT_VERSION="$1"
 INPUT_PACKAGES="$2"
