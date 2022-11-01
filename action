@@ -22,6 +22,7 @@ do_post() {
     sudo tar xf $CACHE_TAR -C /
   else
     echo Cache miss, installing and caching packages.
+    mkdir -p $CACHE_DIR
     sudo DEBIAN_FRONTEND=noninteractive apt --yes install $INPUT_PACKAGES | tee $CACHE_LOG
     # collect list of regular files installed by packages, trim leading /
     cat out | grep Unpacking | awk '{print $2}' | xargs dpkg -L |
