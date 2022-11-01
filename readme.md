@@ -4,7 +4,7 @@ Cache `apt-install` in GitHub Actions. Usage:
 
 ```yaml
 - name: Dependencies
-  uses: daaku/gh-action-apt-install@v2
+  uses: daaku/gh-action-apt-install@v3
   with:
     packages: luajit libluajit-5.1-dev
 ```
