@@ -14,7 +14,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-    - uses: daaku/gh-action-apt-install
+    - uses: daaku/gh-action-apt-install@main
       with:
         packages: ${{ github.event.inputs.packages }}
         version: ${{ github.event.inputs.version }}
