@@ -2,9 +2,6 @@ name: Test
 on:
   workflow_dispatch:
     inputs:
-      packages:
-        description: Packages to install.
-        required: true
       version:
         description: Additional version to include.
         required: false
@@ -14,7 +11,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+    - run: test -e /usr/bin/luajit || echo No luajit.
     - uses: daaku/gh-action-apt-install@main
       with:
-        packages: ${{ github.event.inputs.packages }}
+        packages: luajit
         version: ${{ github.event.inputs.version }}
+    - run: test -e /usr/bin/luajit && echo Found luajit.
