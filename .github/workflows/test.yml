@@ -1,5 +1,7 @@
 name: Test
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       version:
@@ -7,8 +9,8 @@ on:
         required: false
         default: ""
 jobs:
-  test:
-    name: Test
+  test-luajit:
+    name: Test LuaJIT
     runs-on: ubuntu-latest
     steps:
     - run: test -e /usr/bin/luajit || echo No luajit.
@@ -17,3 +19,11 @@ jobs:
         packages: luajit
         version: ${{ github.event.inputs.version }}
     - run: test -e /usr/bin/luajit && echo Found luajit.
+  test-no-packages:
+    name: Test No Packages
+    runs-on: ubuntu-latest
+    steps:
+    - uses: daaku/gh-action-apt-install@main
+      with:
+        packages: dash
+        version: ${{ github.event.inputs.version }}
