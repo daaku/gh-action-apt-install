@@ -31,5 +31,3 @@ runs:
         key: apt-cache-${{ env.APT_CACHE_KEY }}
     - run: ${{ github.action_path }}/action post
       shell: bash
-      with:
-        cache_hit: ${{ steps.cache.outputs.cache-hit || false }}
