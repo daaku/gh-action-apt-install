@@ -22,12 +22,12 @@ outputs:
 runs:
   using: composite
   steps:
-    - run: ${{ github.action_path }}/action pre
+    - run: ${{ github.action_path }}/action pre "${{ inputs.version }}" "${{ inputs.packages }}"
       shell: bash
     - id: cache
       uses: actions/cache@v3
       with:
         path: ~/.apt-cache
         key: apt-cache-${{ env.APT_CACHE_KEY }}
-    - run: ${{ github.action_path }}/action post
+    - run: ${{ github.action_path }}/action post "${{ inputs.version }}" "${{ inputs.packages }}"
       shell: bash
