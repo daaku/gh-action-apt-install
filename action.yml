@@ -19,13 +19,11 @@ outputs:
     description: A boolean value to indicate a cache was found for the packages requested.
     value: ${{ steps.cache.outputs.cache-hit || false }}
 
-env:
-  INPUTS_VERSION: ${{ inputs.version }}
-  INPUTS_PACKAGES: ${{ inputs.packages }}
-
 runs:
   using: composite
   steps:
+    - run: echo "INPUTS_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+    - run: echo "INPUTS_PACKAGES=${{ inputs.packages }}" >> $GITHUB_ENV
     - run: ${{ github.action_path }}/action pre
       shell: bash
     - id: cache
