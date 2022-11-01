@@ -1,0 +1,20 @@
+name: Test
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: Packages to install.
+        required: true
+      version:
+        description: Additional version to include.
+        required: false
+        default: ""
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: daaku/gh-action-apt-install
+      with:
+        packages: ${{ github.event.inputs.packages }}
+        version: ${{ github.event.inputs.version }}
