@@ -5,8 +5,8 @@ shopt -s dotglob nullglob
 trap 'echo "${0} line ${LINENO} Status: ${?}"' ERR
 set -x
 
-INPUT_VERSION="$1"
-INPUT_PACKAGES="$2"
+INPUT_VERSION="$2"
+INPUT_PACKAGES="$3"
 CACHE_DIR=$HOME/.apt-cache
 CACHE_TAR=$CACHE_DIR/root.tar.zstd
 CACHE_LOG=$CACHE_DIR/log
