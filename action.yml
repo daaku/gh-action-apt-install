@@ -1,0 +1,35 @@
+name: Cache apt-install
+description: Cache apt-install.
+author: daaku
+branding:
+  icon: hard-drive
+  color: green
+
+inputs:
+  packages:
+    description: Packages to install.
+    required: true
+  version:
+    description: Additional version to include.
+    required: false
+    default: ""
+
+outputs:
+  cache-hit:
+    description: A boolean value to indicate a cache was found for the packages requested.
+    value: ${{ steps.cache.outputs.cache-hit || false }}
+
+runs:
+  using: composite
+  steps:
+    - run: ${{ github.action_path }}/action pre
+      shell: bash
+    - id: cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.apt-cache
+        key: apt-cache-${{ env.APT_CACHE_KEY }}
+    - run: ${{ github.action_path }}/action post
+      shell: bash
+      with:
+        cache_hit: ${{ steps.cache.outputs.cache-hit || false }}

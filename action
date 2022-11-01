@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+shopt -s dotglob nullglob
+trap 'echo "${0} line ${LINENO} Status: ${?}"' ERR
+
+CACHE_DIR=$HOME/.apt-cache
+CACHE_TAR=$CACHE_DIR/root.tar.zstd
+CACHE_LOG=$CACHE_DIR/log
+CACHE_FILES=$CACHE_DIR/files
+APT_CACHE_KEY=$(echo "$INPUT_PACKAGES|$INPUT_VERSION" | md5sum | awk '{print $1}')
+
+do_pre() {
+  echo "APT_CACHE_KEY=$APT_CACHE_KEY" >>$GITHUB_ENV
+}
+
+do_post() {
+  if [[ -e $CACHE_TAR ]]; then
+    echo Cache hit, restoring from cache.
+    sudo tar xf $CACHE_TAR -C /
+  else
+    echo Cache miss, installing and caching packages.
+    sudo DEBIAN_FRONTEND=noninteractive apt --yes install $INPUT_PACKAGES | tee $CACHE_LOG
+    # collect list of regular files installed by packages, trim leading /
+    cat out | grep Unpacking | awk '{print $2}' | xargs dpkg -L |
+      while IFS='\n' read -r f; do [[ -f "$f" ]] && echo "${f:1}"; done >$CACHE_FILES
+    tar cf $CACHE_TAR --zstd -C / -T $CACHE_FILES
+  fi
+}
+
+do_$@
