@@ -22,8 +22,10 @@ outputs:
 runs:
   using: composite
   steps:
-    - run: echo "INPUTS_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
-    - run: echo "INPUTS_PACKAGES=${{ inputs.packages }}" >> $GITHUB_ENV
+    - run: |
+        echo "INPUTS_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+        echo "INPUTS_PACKAGES=${{ inputs.packages }}" >> $GITHUB_ENV
+      shell: bash
     - run: ${{ github.action_path }}/action pre
       shell: bash
     - id: cache
