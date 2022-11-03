@@ -11,7 +11,7 @@ but has various caveats (such as post install scripts are not run).
 
 ```yaml
 - name: Dependencies
-  uses: daaku/gh-action-apt-install@v3
+  uses: daaku/gh-action-apt-install@v4
   with:
     packages: luajit libluajit-5.1-dev
 ```
