@@ -1,6 +1,6 @@
 # gh-action-apt-install
 
-Cache `apt-install` in GitHub Actions.
+Cache `apt install` in GitHub Actions.
 
 Essentially, this bundles all installed files into a single zstd compressed
 tarball cached using [actions/cache](https://github.com/actions/cache) for
