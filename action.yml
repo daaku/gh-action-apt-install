@@ -1,5 +1,5 @@
-name: Cache apt-install
-description: Cache apt-install.
+name: Cache apt install
+description: Cache apt install.
 author: daaku
 branding:
   icon: zap
