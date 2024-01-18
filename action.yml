@@ -29,7 +29,7 @@ runs:
     - run: ${{ github.action_path }}/action pre
       shell: bash
     - id: cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.apt-cache
         key: apt-cache-${{ runner.os }}-${{ env.APT_CACHE_KEY }}
